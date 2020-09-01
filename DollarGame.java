@@ -69,21 +69,37 @@ public class DollarGame {
     {
         System.out.println("oy");
      
-        //vertices:  the vertices count that the user inputs later.
-        int vertices;
-     
-        //edges: the edges the user enters for later.
-        int edges;
-     
-        vertices = getVertices();
-     
-        edges = getEdges();
+  	//vertices: the number of vertices for this assignment.
+	int vertices;
+	
+	//edges:  the number of edges for this assignment.
+	int edges;
+	
+	
+	
+	vertices = getVertices();
+		
+	//If getVertices returns 0, that's the signal to quit.
+	if (vertices == 0)
+	{
+		return;
+	}
+	
+	
+	edges = getEdges(vertices);
+	
+	if (edges == 0)
+	{
+		return;
+	}
+		
+		
+	System.out.println("Please enter the connections between each edge as \"AB\"");
+	
     }
  
  
- 
- 
- /* getVertices()
+/* getVertices()
 	 * 
 	 * Returns an integer value between VERT_MIN and VERT_MAX (Inclusive).
 	 * 
@@ -98,6 +114,9 @@ public class DollarGame {
 		int vertValue = 0;
 		
 		
+		//userInput:  Holds the input from the keyboard.
+		String userInput;
+		
 		//isValid:  If this is true, then the user entered valid input.
 		boolean isValid = false;
 		
@@ -107,51 +126,53 @@ public class DollarGame {
 		
 		System.out.println("Please enter a number of vertices for the Dollar Game between "  + VERT_MIN + " and " + VERT_MAX);
 		
-  //Get input from the user until the user enters a valid integer.
+		
 		do
 		{
 			
-			try
+			userInput = reader.nextLine();
+			
+			
+			if(isInteger(userInput) == false)
 			{
-				vertValue = reader.nextInt();
-				
-				if (vertValue >= VERT_MIN && vertValue <= VERT_MAX )
+				if(userInput.equals("q") || userInput.equals("Q"))
 				{
-					isValid = true;
+					System.out.println("Quitting program.");
+					return 0;
+				}
+				
+				else
+				{
+					System.out.println("Error. Invalid Input Type.  Please enter a whole number between " + VERT_MIN +" and " + VERT_MAX + ".");
 					
+					isValid = false;
+				}	
+			}
+			else
+			{
+				vertValue = Integer.parseInt(userInput);
+				
+				
+				if(vertValue < VERT_MIN || vertValue > VERT_MAX)
+				{
+					System.out.println("Error. Invalid Value.  Please enter a whole number between " + VERT_MIN +" and " + VERT_MAX + ".");
+					
+					isValid = false;
 				}
 				else
 				{
-     //The user entered an integer, but out of bounds.
-					System.out.println("Error.\nInvalid Value\nPlease enter an whole number value between " + VERT_MIN + " and " + VERT_MAX);
-					
-					isValid = false;
-					
+					isValid = true;
 				}
 				
-				
-			}
-			catch(InputMismatchException e)
-			{
-    //The user entered something that wasn't a string.
-				System.out.println("Error.\nInvalid Entry\n Please enter an whole number value between " + VERT_MIN + " and " + VERT_MAX);
-				
-				isValid = false;
-				
 			}
 			
-			
-			
-		}while (isValid == false);
+		} while(isValid == false);
 		
 		
 		return vertValue;
 	}
 
 	
-	
- 
- 	
 	/* getEdges()
 	 * 
 	 * Parameters:
@@ -165,67 +186,112 @@ public class DollarGame {
 	 * 	-The method re-prompts.
 	 * 
 	 */
-
 	public static int getEdges(int vertices)
 	{
-		//vertValue: Should hold the number of vertices from the user's input.
-				int edgeValue = 0;
+		//edgeValue: Should hold the number of vertices from the user's input.
+			int edgeValue = 0;
 				
 				
-				//isValid:  If this is true, then the user entered valid input.
-				boolean isValid = false;
+			//isValid:  If this is true, then the user entered valid input.
+			boolean isValid = false;
+				
+			int edge_min = vertices - 1;
+				
+			int edge_max = (vertices - 1) * vertices;
 				
 				
-				//reader:  This scanner takes in input.
-				Scanner reader2 = new Scanner(System.in);
+			//userInput:  Holds the input from the keyboard.
+			String userInput;
 				
-				System.out.println("Please enter a number of edges for the Dollar Game.");
+			//reader:  This scanner takes in input.
+			Scanner reader2 = new Scanner(System.in);
 				
-				System.out.println("The minimum amount of edges required is " + (vertices - 1));
+			System.out.println("Please enter a number of edges for the Dollar Game.");
 				
-				do
+			System.out.println("The minimum amount of edges required is " + edge_min);
+				
+			System.out.println("The maximum amount of edges is " + edge_max);
+				
+				
+			do
+			{
+					
+				userInput = reader2.nextLine();
+					
+					
+				if(isInteger(userInput) == false)
 				{
-					
-					try
+					if(userInput.equals("q") || userInput.equals("Q"))
 					{
-						edgeValue = reader2.nextInt();
-						
-						if (edgeValue >= (vertices - 1))
-						{
-        //If the input is valid, isValid = true.
-							isValid = true;
-							
-						}
-						else
-						{
-        //The user entered an integer, but out of bounds.
-							 System.out.println("Error.\nInvalid Value\nPlease enter an whole number value greater than " + vertices);
-							
-							 isValid = false;
-							
-						}
-						
-						
+						System.out.println("Quitting program.");
+						return 0;
 					}
-					catch(InputMismatchException e)
+						
+					else
 					{
-      
-      //The user entered something that wasn't an integer.
-						 System.out.println("Error.\nInvalid Entry\n Please enter an whole number value greater than " + vertices);
+						System.out.println("Error. Invalid Input Type.  Please enter a whole number between " + edge_min +" and " + edge_max + ".");
+							
+						isValid = false;
+					}	
+				}
+				else
+				{
+					edgeValue = Integer.parseInt(userInput);
 						
-						 isValid = false;
 						
+					if(edgeValue < edge_min || edgeValue > edge_max)
+					{
+						System.out.println("Error. Invalid Value.  Please enter a whole number between " + edge_min +" and " + edge_max + ".");
+							
+						isValid = false;
 					}
+					else
+					{
+						isValid = true;
+					}
+						
+				}
 					
-					
-					
-				}while (isValid == false);
+			} while(isValid == false);
 				
 				
-				return edgeValue;
+				
+				
 
+			return edgeValue;
 	}
- 
+	
+	
+
+	/* isInteger()
+	 * 
+	 * Parameters:
+	 * 	testCase: String
+	 * 
+	 * 
+	 * 	Returns true if testCase can safely be parsed into an integer.
+	 *  
+	 *  If testCase contains any characters that are not digits, false is returned.
+	 * 
+	 */
+	public static boolean isInteger(String testCase)
+	{
+		for (int x = 0 ; x < testCase.length(); x++)
+		{
+			
+			//If the character at position x is NOT a digit, then we return false.
+			if (Character.isDigit(testCase.charAt(x)) != true)
+			{
+				return false;
+				
+			}
+			
+		}
+		
+		
+		return true;
+		
+	}
  
  
  
