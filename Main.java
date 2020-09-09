@@ -286,6 +286,8 @@ public class Main {
                 System.out.println("Board is in a winning configuration!");
             }
             printBoardState();
+            
+            System.out.println("Enter Q or q to exit the game.");
             getMove();
         }
         if (isSolved()) {
